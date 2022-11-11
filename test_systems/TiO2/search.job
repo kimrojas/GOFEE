@@ -1,0 +1,33 @@
+#!/bin/bash
+#SBATCH --job-name=TiO_1L_0
+#SBATCH --partition=q20,q16l,q16,q12
+#SBATCH --mem=10G
+#SBATCH --nodes=1
+#SBATCH --time=5:00:00
+#SBATCH --ntasks-per-node=5
+#SBATCH --cpus-per-task=1
+#SBATCH --no-requeue
+#SBATCH --array=0-2%3
+
+
+echo "========= Job started  at `date` =========="
+# Go to the directory where this job was submitted
+cd $SLURM_SUBMIT_DIR
+
+source /home/mkb/.gpaw_py3
+source /home/mkb/.GOFEE
+source /home/mkb/.dftb
+
+path0=$SLURM_SUBMIT_DIR/runs0
+base_path=$path0/run$SLURM_ARRAY_TASK_ID
+mkdir $base_path
+
+# Copy files
+cp run_search.py $base_path
+cp slab.traj $base_path
+
+cd $base_path
+mpiexec --mca mpi_warn_on_fork 0 gpaw-python run_search.py > search.log
+echo "========= Job finished at `date` =========="
+
+

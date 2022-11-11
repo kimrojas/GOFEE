@@ -1,0 +1,375 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Searching for TiO clusters &mdash; GOFEE  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Searching for the TiO2(001)-(1x4) reconstruction" href="../tio2_reconstruction/tio2_reconstruction.html" />
+    <link rel="prev" title="Modifying surrogate model" href="../modifying_surrogate_model/modifying_surrogate_model.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> GOFEE
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started/getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../SLURM/SLURM.html">SLURM job examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorial.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../cu3au2_clusters/cu3au2_clusters.html">Cu3Au2 with EMT - First search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cu_clusters/cu_clusters.html">Cu15 with EMT - Detailed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../au_on_cu/au_on_cu.html">Au7 on Cu(111) with EMT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modifying_surrogate_model/modifying_surrogate_model.html">Modifying surrogate model</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Searching for TiO clusters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-the-system">Setting up the system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#startgenerater-for-making-initial-structures">Startgenerater - for making initial structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#candidategenerator">CandidateGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#initialize-and-run-gofee">Initialize and run GOFEE</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tio2_reconstruction/tio2_reconstruction.html">Searching for the TiO2(001)-(1x4) reconstruction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../GOFEE/GOFEE.html">GOFEE</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">GOFEE</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../tutorial.html">Tutorial</a> &raquo;</li>
+        
+      <li>Searching for TiO clusters</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/tutorial/tio_clusters/tio_clusters.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="searching-for-tio-clusters">
+<span id="id1"></span><h1>Searching for TiO clusters<a class="headerlink" href="#searching-for-tio-clusters" title="Permalink to this headline">¶</a></h1>
+<p>For this tutorial we will use the dftb-calculator with
+the tiorg parameters.</p>
+<p>In this tutorial we carry out a search for titanium-oxide clusters using
+dftb to evaluate energies and forses of the structures.</p>
+<p>The following script <a class="reference download internal" download="" href="../../_downloads/8108152e19011a5e65bb02f10ec97d04/Ti5O10.py"><code class="xref download docutils literal notranslate"><span class="pre">Ti5O10.py</span></code></a> is used to carry out the search (the indivitual elements are
+explainted further below):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Creates: structures.traj</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">ase</span> <span class="k">import</span> <span class="n">Atoms</span>
+<span class="kn">from</span> <span class="nn">ase.calculators.dftb</span> <span class="k">import</span> <span class="n">Dftb</span>
+
+<span class="kn">from</span> <span class="nn">gofee.candidates</span> <span class="k">import</span> <span class="n">CandidateGenerator</span><span class="p">,</span> <span class="n">StartGenerator</span><span class="p">,</span> <span class="n">RattleMutation</span>
+<span class="kn">from</span> <span class="nn">gofee</span> <span class="k">import</span> <span class="n">GOFEE</span>
+
+<span class="c1">### Define calculator ###</span>
+<span class="n">calc</span> <span class="o">=</span> <span class="n">Dftb</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;TiO2_surface&#39;</span><span class="p">,</span>
+            <span class="n">Hamiltonian_SCC</span><span class="o">=</span><span class="s1">&#39;No&#39;</span><span class="p">,</span>
+            <span class="n">Hamiltonian_MaxAngularMomentum_</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="n">Hamiltonian_MaxAngularMomentum_Ti</span><span class="o">=</span><span class="s1">&#39;&quot;d&quot;&#39;</span><span class="p">,</span>
+            <span class="n">Hamiltonian_MaxAngularMomentum_O</span><span class="o">=</span><span class="s1">&#39;&quot;p&quot;&#39;</span><span class="p">,</span>
+            <span class="n">Hamiltonian_Charge</span><span class="o">=</span><span class="s1">&#39;0.000000&#39;</span><span class="p">,</span>
+            <span class="n">Hamiltonian_Filling</span> <span class="o">=</span><span class="s1">&#39;Fermi {&#39;</span><span class="p">,</span>
+            <span class="n">Hamiltonian_Filling_empty</span><span class="o">=</span> <span class="s1">&#39;Temperature [Kelvin] = 0.000000&#39;</span><span class="p">,</span>
+            <span class="n">kpts</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="c1">### Set up system ###</span>
+<span class="c1"># make empty cell</span>
+<span class="n">template</span> <span class="o">=</span> <span class="n">Atoms</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="n">cell</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span>
+            <span class="n">pbc</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Stoichiometry of atoms to be placed</span>
+<span class="n">stoichiometry</span> <span class="o">=</span> <span class="mi">5</span><span class="o">*</span><span class="p">[</span><span class="mi">22</span><span class="p">]</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
+
+<span class="c1"># Box in which to place atoms randomly</span>
+<span class="n">v</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">))</span>
+<span class="n">box</span> <span class="o">=</span> <span class="p">[</span><span class="n">p0</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span>
+
+<span class="c1"># initialize startgenerator (used to generate initial structures)</span>
+<span class="n">sg</span> <span class="o">=</span> <span class="n">StartGenerator</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">stoichiometry</span><span class="p">,</span> <span class="n">box</span><span class="p">)</span>
+
+<span class="c1">### Set up candidate generation operations ###</span>
+<span class="c1"># initialize rattle mutation</span>
+<span class="n">n_to_optimize</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">stoichiometry</span><span class="p">)</span>
+<span class="n">rattle</span> <span class="o">=</span> <span class="n">RattleMutation</span><span class="p">(</span><span class="n">n_to_optimize</span><span class="p">,</span> <span class="n">Nrattle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">rattle_range</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">candidate_generator</span> <span class="o">=</span> <span class="n">CandidateGenerator</span><span class="p">(</span><span class="n">probabilities</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span>
+                                            <span class="n">operations</span><span class="o">=</span><span class="p">[</span><span class="n">sg</span><span class="p">,</span> <span class="n">rattle</span><span class="p">])</span>
+
+<span class="c1">### Initialize and run search ###</span>
+<span class="n">search</span> <span class="o">=</span> <span class="n">GOFEE</span><span class="p">(</span><span class="n">calc</span><span class="o">=</span><span class="n">calc</span><span class="p">,</span>
+                <span class="n">startgenerator</span><span class="o">=</span><span class="n">sg</span><span class="p">,</span>
+                <span class="n">candidate_generator</span><span class="o">=</span><span class="n">candidate_generator</span><span class="p">,</span>
+                <span class="n">max_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                <span class="n">population_size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">search</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>And run using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mpiexec</span> <span class="n">python</span> <span class="n">Ti5O10</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>What follows is a description of the python script above.</p>
+<div class="section" id="setting-up-the-system">
+<h2>Setting up the system<a class="headerlink" href="#setting-up-the-system" title="Permalink to this headline">¶</a></h2>
+<p>An important prerequisite for starting a search is to set up the system.
+This is done by defining a template and a stoichiometry of the atoms to
+optimize.</p>
+<p>The <em>template</em> is an <code class="xref py py-class docutils literal notranslate"><span class="pre">Atoms</span></code> object, either describing an empty cell or
+a cell containing for example a slab of atoms. For most purposes, the atoms
+in the template shold be fixed using <code class="xref py py-class docutils literal notranslate"><span class="pre">ase.constraints.FixAtoms</span></code>
+constraint, as the template atoms are kept fixed during mutation operation,
+but will take part in surrogate-relaxation if not fixed.
+In this example the template is taken to be an empty 20Åx20Åx20Å cell, since
+we considder isolated TiO-clusters. The code to generate the template is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ase</span> <span class="k">import</span> <span class="n">Atoms</span>
+<span class="n">template</span> <span class="o">=</span> <span class="n">Atoms</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="n">cell</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span>
+            <span class="n">pbc</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The <em>stoichiometry</em> of atoms to optimize is a list of atomic numbers. In this
+case 5 titanium (atomic nymber 22) and 10 oxygen (atomic number 8) atoms:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stoichiometry</span> <span class="o">=</span> <span class="mi">5</span><span class="o">*</span><span class="p">[</span><span class="mi">22</span><span class="p">]</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="startgenerater-for-making-initial-structures">
+<h2>Startgenerater - for making initial structures<a class="headerlink" href="#startgenerater-for-making-initial-structures" title="Permalink to this headline">¶</a></h2>
+<p>To initialize the search, initial structures need to be generated. This is
+carried out using the <code class="xref py py-class docutils literal notranslate"><span class="pre">StartGenerator</span></code>, which in addition to the
+<em>template</em> and <em>stoichiometry</em> defined above, need a <em>box</em> in which to randomly
+place the atoms defined in the <em>stoichiometry</em>.</p>
+<p>The <em>box</em> is naturally defined by a point <em>p0</em> and three spanning vectors going
+out from that point. These are defined bu the 3x3 matrix <em>v</em> in the example.
+In the example a 20Åx20Åx20Å square box in the center of the cell is used:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">v</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">))</span>
+<span class="n">box</span> <span class="o">=</span> <span class="p">[</span><span class="n">p0</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The <em>startgenerator</em> can then be initialized with the code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">candidate_operations.candidate_generation</span> <span class="k">import</span> <span class="n">StartGenerator</span>
+<span class="n">sg</span> <span class="o">=</span> <span class="n">StartGenerator</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">stoichiometry</span><span class="p">,</span> <span class="n">box</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="candidategenerator">
+<h2>CandidateGenerator<a class="headerlink" href="#candidategenerator" title="Permalink to this headline">¶</a></h2>
+<p>In GOFEE, the configurational space is explored by generation new candidate structures.
+New candidates can be either completely random structures made using the <em>startgenerator</em>
+or they can be the result of applying mutation operations to a population of some of the
+best structures visited during the search. Examples of mutaion operations are the
+:class:’RattleMutation’, which randomly shifts some of the atoms and the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">PermutaionMutation</span></code> which randomly permutes some atoms of different type.
+The rattle mutation in the example, which rattles on average Natoms=3 atom a maximum distance of
+rattle_range=4Å, is initialized as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">candidate_operations.basic_mutations</span> <span class="k">import</span> <span class="n">RattleMutation</span>
+<span class="n">n_to_optimize</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">stoichiometry</span><span class="p">)</span>
+<span class="n">rattle</span> <span class="o">=</span> <span class="n">RattleMutation</span><span class="p">(</span><span class="n">n_to_optimize</span><span class="p">,</span> <span class="n">Nrattle</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">rattle_range</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Given some of the above described operations. e.g. a <code class="xref py py-class docutils literal notranslate"><span class="pre">StartGenerator</span></code>
+and a :class:’RattleMutation’, one can initialize a <code class="xref py py-class docutils literal notranslate"><span class="pre">CandidateGenerator</span></code>,
+which handles the generation of new candidates by applying the supplied
+<em>operations</em> with probability specified in the <em>probabilities</em> list.
+A CandidateGenerator which uses the startgenerator <em>sg</em> with 20% probability and
+the rattle operation <em>rattle</em> with 80% probability, is initialized as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">candidate_operations.candidate_generation</span> <span class="k">import</span> <span class="n">CandidateGenerator</span>
+<span class="n">candidate_generator</span> <span class="o">=</span> <span class="n">CandidateGenerator</span><span class="p">(</span><span class="n">probabilities</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span>
+                                         <span class="n">operations</span><span class="o">=</span><span class="p">[</span><span class="n">sg</span><span class="p">,</span> <span class="n">rattle</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="initialize-and-run-gofee">
+<h2>Initialize and run GOFEE<a class="headerlink" href="#initialize-and-run-gofee" title="Permalink to this headline">¶</a></h2>
+<p>With all the above objects defined, we are ready to initialize and run GOFEE.
+To run the search for 100 iterations with a population size of 5, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gofee</span> <span class="k">import</span> <span class="n">GOFEE</span>
+<span class="n">search</span> <span class="o">=</span> <span class="n">GOFEE</span><span class="p">(</span><span class="n">calc</span><span class="o">=</span><span class="n">calc</span><span class="p">,</span>
+               <span class="n">startgenerator</span><span class="o">=</span><span class="n">sg</span><span class="p">,</span>
+               <span class="n">candidate_generator</span><span class="o">=</span><span class="n">candidate_generator</span><span class="p">,</span>
+               <span class="n">max_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+               <span class="n">population_size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">search</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This tutorial relies on many default settings of GOFEE, which could be changed.
+To see how these settings are changed, have a look at the other tutorials.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../tio2_reconstruction/tio2_reconstruction.html" class="btn btn-neutral float-right" title="Searching for the TiO2(001)-(1x4) reconstruction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../modifying_surrogate_model/modifying_surrogate_model.html" class="btn btn-neutral float-left" title="Modifying surrogate model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Malthe Kjær Bisbo, Bjørk Hammer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

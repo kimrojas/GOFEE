@@ -1,0 +1,36 @@
+#!/bin/bash
+#SBATCH --job-name=si3x3_0
+#SBATCH --partition=q36,q28,q40,qgpu
+#SBATCH --mem=30G
+#SBATCH --nodes=1
+#SBATCH --time=8:00:00
+##SBATCH --exclusive
+#SBATCH --ntasks-per-node=10
+#SBATCH --cpus-per-task=1
+#SBATCH --no-requeue
+#SBATCH --array=0-19%20
+
+
+echo "========= Job started  at `date` =========="
+# Go to the directory where this job was submitted
+cd $SLURM_SUBMIT_DIR
+
+source /home/mkb/.gpaw_py3
+source /home/mkb/.GOFEE
+source /home/mkb/.dftb_si
+
+path0=$SLURM_SUBMIT_DIR/runs0
+base_path=$path0/run$SLURM_ARRAY_TASK_ID
+mkdir $base_path
+
+#cp -r ~/GOFEE/gofee $path0
+
+# Copy files
+cp run_search.py $base_path
+cp slab.traj $base_path
+
+cd $base_path
+mpiexec --mca mpi_warn_on_fork 0 gpaw-python run_search.py > search_log.txt
+echo "========= Job finished at `date` =========="
+
+

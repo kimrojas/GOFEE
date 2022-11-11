@@ -1,0 +1,473 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>GOFEE &mdash; GOFEE  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Searching for the TiO2(001)-(1x4) reconstruction" href="../tutorial/tio2_reconstruction/tio2_reconstruction.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> GOFEE
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SLURM/SLURM.html">SLURM job examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">GOFEE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#startgenerator">StartGenerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#candidategenerator">CandidateGenerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mutations">Mutations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rattlemutation">RattleMutation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rattlemutation2">RattleMutation2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#permutationmutation">PermutationMutation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">GOFEE</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>GOFEE</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/GOFEE/GOFEE.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="gofee">
+<h1>GOFEE<a class="headerlink" href="#gofee" title="Permalink to this headline">¶</a></h1>
+<p>Below an overview of the inputs to GOFEE is shown. Many of the inputs
+can be safely kept at default settings. However <code class="docutils literal notranslate"><span class="pre">calc</span></code>, defining the
+calculator, as well as either <code class="docutils literal notranslate"><span class="pre">startgenerator</span></code> or <code class="docutils literal notranslate"><span class="pre">structures</span></code>,
+defining the system, must always be set.
+In addition it is recomended to also set the <code class="docutils literal notranslate"><span class="pre">candidate_generatior</span></code>.</p>
+<dl class="class">
+<dt id="gofee.GOFEE">
+<em class="property">class </em><code class="sig-prename descclassname">gofee.</code><code class="sig-name descname">GOFEE</code><span class="sig-paren">(</span><em class="sig-param">structures=None</em>, <em class="sig-param">calc=None</em>, <em class="sig-param">gpr=None</em>, <em class="sig-param">startgenerator=None</em>, <em class="sig-param">candidate_generator=None</em>, <em class="sig-param">kappa=2</em>, <em class="sig-param">max_steps=200</em>, <em class="sig-param">Ninit=10</em>, <em class="sig-param">max_relax_dist=4</em>, <em class="sig-param">Ncandidates=30</em>, <em class="sig-param">population_size=10</em>, <em class="sig-param">dualpoint=True</em>, <em class="sig-param">min_certainty=0.7</em>, <em class="sig-param">position_constraint=None</em>, <em class="sig-param">improved_structure_convergence={}</em>, <em class="sig-param">filter_optimized_structures=False</em>, <em class="sig-param">relax_scheme={}</em>, <em class="sig-param">population_scheme={}</em>, <em class="sig-param">N_use_pop=1</em>, <em class="sig-param">apply_centering=False</em>, <em class="sig-param">trajectory='structures.traj'</em>, <em class="sig-param">logfile='search.log'</em>, <em class="sig-param">restart='restart.pickl'</em>, <em class="sig-param">reference_structure=None</em>, <em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="headerlink" href="#gofee.GOFEE" title="Permalink to this definition">¶</a></dt>
+<dd><p>GOFEE global structure search method.</p>
+<p>Parameters:</p>
+<dl>
+<dt>structures: Atoms-object, list of Atoms-objects or None</dt><dd><p>In initial structures from which to start the sesarch.
+If None, the startgenerator must be supplied.
+If less than Ninit structures is supplied, the remaining
+ones are generated using the startgenerator or by rattling
+the supplied structures, depending on wether the
+startgenerator is supplied.</p>
+</dd>
+<dt>calc: ASE calculator</dt><dd><p>Specifies the energy-expression
+with respect to which the atomic coordinates are
+globally optimized.</p>
+</dd>
+<dt>gpr: GPR object</dt><dd><p>The Gaussian Process Regression model used as the
+surrogate model for the Potential energy surface.</p>
+</dd>
+<dt>startgenerator: Startgenerator object</dt><dd><p>Used to generate initial random
+structures. Must be supplied if structures if structues=None.
+(This is the recommended way to initialize the search.)</p>
+</dd>
+<dt>candidate_generator: OperationSelector object</dt><dd><p>Object used to generate new candidates.</p>
+</dd>
+<dt>trajectory: str</dt><dd><p>Name of trajectory to which all structures,
+evaluated during the search, is saved.</p>
+</dd>
+<dt>logfile: file object or str</dt><dd><p>If <em>logfile</em> is a string, a file with that name will be opened.
+Use ‘-‘ for stdout.</p>
+</dd>
+<dt>kappa: float</dt><dd><p>How much to weigh predicted uncertainty in the acquisition
+function.</p>
+</dd>
+<dt>max_steps: int</dt><dd><p>Number of search steps.</p>
+</dd>
+<dt>Ninit: int</dt><dd><p>Number of initial structures. If len(structures) &lt;
+Ninit, the remaining structures are generated using the
+startgenerator (if supplied) or by rattling the supplied
+‘structures’.</p>
+</dd>
+<dt>max_relax_dist: float</dt><dd><p>Max distance (in Angstrom) that an atom is allowed to
+move during surrogate relaxation.</p>
+</dd>
+<dt>Ncandidates: int</dt><dd><p>Number of new cancidate structures generated and
+surrogate-relaxed in each search iteration.</p>
+</dd>
+<dt>population_size: int</dt><dd><p>Maximum number of structures in the population.</p>
+</dd>
+<dt>dualpoint: boolean</dt><dd><p>Whether to use dualpoint evaluation or not.</p>
+</dd>
+<dt>min_certainty: float</dt><dd><p>Max predicted uncertainty allowed for structures to be
+considdered for evaluation. (in units of the maximum possible
+uncertainty.)</p>
+</dd>
+<dt>position_constraint: OperationConstraint object</dt><dd><p>Enforces constraints on the positions of the “free” atoms
+in the search. The constraint is enforces both during
+mutation/crossover operations and during surrogate-relaxation.</p>
+</dd>
+<dt>position_constraint: OperationConstraint object</dt><dd><p>Enforces constraints on the positions of the “free” atoms
+in the search. The constraint is enforces both during
+mutation/crossover operations and during surrogate-relaxation.</p>
+</dd>
+<dt>relax_scheme: None or string</dt><dd><dl>
+<dt>Possible choices are:</dt><dd><p>None (default) : Same model for exploration and exploitation
+‘exploit’ : Relaxation is potentially finished without uncertainty included,</p>
+<blockquote>
+<div><p>if candidate is determined to be exploitation.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+<dt>restart: str</dt><dd><p>Filename for restart file.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="gofee.GOFEE.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">max_steps=None</em>, <em class="sig-param">restart=None</em><span class="sig-paren">)</span><a class="headerlink" href="#gofee.GOFEE.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to run the search.</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="startgenerator">
+<h2>StartGenerator<a class="headerlink" href="#startgenerator" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">StartGenerator</span></code> is used to generate initial structures for
+the search. In addition it can be used to generate new candidates during
+the search, if it is included as an operation in the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">CandidateGenerator</span></code>.</p>
+<dl class="class">
+<dt id="gofee.candidates.StartGenerator">
+<em class="property">class </em><code class="sig-prename descclassname">gofee.candidates.</code><code class="sig-name descname">StartGenerator</code><span class="sig-paren">(</span><em class="sig-param">slab</em>, <em class="sig-param">stoichiometry</em>, <em class="sig-param">box_to_place_in</em>, <em class="sig-param">cluster=False</em>, <em class="sig-param">description='StartGenerator'</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#gofee.candidates.StartGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class used to generate random initial candidates.</p>
+<p>Generates new candidates by iteratively adding
+one atom at a time within a user-defined box.</p>
+<p>Parameters:</p>
+<dl class="simple">
+<dt>slab: Atoms object</dt><dd><p>The atoms object describing the super cell to
+optimize within. Can be an empty cell or a cell
+containing the atoms of a slab.</p>
+</dd>
+<dt>stoichiometry: list</dt><dd><p>A list of atomic numbers for the atoms
+that are placed on top of the slab (if one is present).</p>
+</dd>
+<dt>box_to_place_in: list</dt><dd><p>The box within which atoms are placed. The box
+should be on the form [p0, vspan] where ‘p0’ is the position of
+the box corner and ‘vspan’ is a matrix containing the three
+spanning vectors.</p>
+</dd>
+<dt>blmin: float</dt><dd><p>The minimum allowed distance between atoms in units of
+the covalent distance between atoms, where d_cov=r_cov_i+r_cov_j.</p>
+</dd>
+<dt>blmax: float</dt><dd><p>The maximum allowed distance, in units of the covalent
+distance, from a single isolated atom to the closest atom. If
+blmax=None, no constraint is enforced on isolated atoms.</p>
+</dd>
+<dt>cluster: bool</dt><dd><p>If True atoms are required to be placed within
+blmin*d_cov of one of the other atoms to be placed. If
+False the atoms in the slab are also included.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="candidategenerator">
+<h2>CandidateGenerator<a class="headerlink" href="#candidategenerator" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">CandidateGenerator</span></code> is used in each iteration in the GOFEE search
+to generate new candidates based on a list on operations to use. Possible
+operation can be found below under the “Mutations” section.</p>
+<dl class="class">
+<dt id="gofee.candidates.CandidateGenerator">
+<em class="property">class </em><code class="sig-prename descclassname">gofee.candidates.</code><code class="sig-name descname">CandidateGenerator</code><span class="sig-paren">(</span><em class="sig-param">probabilities</em>, <em class="sig-param">operations</em><span class="sig-paren">)</span><a class="headerlink" href="#gofee.candidates.CandidateGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to produce new candidates by applying one of the
+candidate generation operations which is supplied in the
+‘operations’-list. The operations are drawn randomly according
+to the ‘probabilities’-list.</p>
+<dl class="simple">
+<dt>operations<span class="classifier">list or list of lists</span></dt><dd><p>Defines the operations to generate new candidates in GOFEE.
+of mutations/crossovers. Either a list of mutations, e.g. the
+RattleMutation, or alternatively a list of lists of such mutations,
+in which case consecutive operations, one drawn from each list,
+are performed.</p>
+</dd>
+<dt>probabilities<span class="classifier">list or list of lists</span></dt><dd><p>probability for each of the mutations/crossovers
+in operations. Must have the same dimensions as operations.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="gofee.candidates.CandidateGenerator.get_new_candidate">
+<code class="sig-name descname">get_new_candidate</code><span class="sig-paren">(</span><em class="sig-param">parents</em><span class="sig-paren">)</span><a class="headerlink" href="#gofee.candidates.CandidateGenerator.get_new_candidate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate new candidate by applying a randomly drawn
+operation on the structures. This is done successively for
+each list of operations, if multiple are present.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="mutations">
+<h2>Mutations<a class="headerlink" href="#mutations" title="Permalink to this headline">¶</a></h2>
+<p>The mutations to chose from are listed below.</p>
+<div class="section" id="rattlemutation">
+<h3>RattleMutation<a class="headerlink" href="#rattlemutation" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="gofee.candidates.RattleMutation">
+<em class="property">class </em><code class="sig-prename descclassname">gofee.candidates.</code><code class="sig-name descname">RattleMutation</code><span class="sig-paren">(</span><em class="sig-param">n_top</em>, <em class="sig-param">Nrattle=3</em>, <em class="sig-param">rattle_range=3</em>, <em class="sig-param">description='RattleMutation'</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#gofee.candidates.RattleMutation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to perform rattle mutations on structures.</p>
+<p>Rattles a number of randomly selected atoms within a sphere
+of radius ‘rattle_range’ of their original positions.
+- Moves one involved atom at a time.</p>
+<p>Parameters:</p>
+<dl class="simple">
+<dt>n_top: int</dt><dd><p>The number of atoms to optimize. Specifically the
+atoms with indices [-n_top:] are optimized.</p>
+</dd>
+<dt>Nrattle: float</dt><dd><p>The average number of atoms to rattle.</p>
+</dd>
+<dt>rattle_range: float</dt><dd><p>The maximum distance within witch to rattle the
+atoms. Atoms are rattled uniformly within a sphere of this
+radius.</p>
+</dd>
+<dt>blmin: float</dt><dd><p>The minimum allowed distance between atoms in units of
+the covalent distance between atoms, where d_cov=r_cov_i+r_cov_j.</p>
+</dd>
+<dt>blmax: float</dt><dd><p>The maximum allowed distance, in units of the covalent
+distance, from a single isolated atom to the closest atom. If
+blmax=None, no constraint is enforced on isolated atoms.</p>
+</dd>
+<dt>description: str</dt><dd><p>Name of the operation, which will be saved in
+info-dict of structures, on which the operation is applied.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="rattlemutation2">
+<h3>RattleMutation2<a class="headerlink" href="#rattlemutation2" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="gofee.candidates.RattleMutation2">
+<em class="property">class </em><code class="sig-prename descclassname">gofee.candidates.</code><code class="sig-name descname">RattleMutation2</code><span class="sig-paren">(</span><em class="sig-param">n_top</em>, <em class="sig-param">Nrattle=3</em>, <em class="sig-param">description='RattleMutation'</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#gofee.candidates.RattleMutation2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to perform rattle mutations on structures.</p>
+<p>Rattles a number of randomly selected atom to the visinity
+of other candomly selected atoms random atom.
+- Moves one involved atom at a time.</p>
+<p>Parameters:</p>
+<dl class="simple">
+<dt>n_top: int</dt><dd><p>The number of atoms to optimize. Specifically the
+atoms with indices [-n_top:] are optimized.</p>
+</dd>
+<dt>Nrattle: float</dt><dd><p>The average number of atoms to rattle.</p>
+</dd>
+<dt>blmin: float</dt><dd><p>The minimum allowed distance between atoms in units of
+the covalent distance between atoms, where d_cov=r_cov_i+r_cov_j.</p>
+</dd>
+<dt>blmax: float</dt><dd><p>The maximum allowed distance, in units of the covalent
+distance, from a single isolated atom to the closest atom. If
+blmax=None, no constraint is enforced on isolated atoms.</p>
+</dd>
+<dt>description: str</dt><dd><p>Name of the operation, which will be saved in
+info-dict of structures, on which the operation is applied.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="permutationmutation">
+<h3>PermutationMutation<a class="headerlink" href="#permutationmutation" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="gofee.candidates.PermutationMutation">
+<em class="property">class </em><code class="sig-prename descclassname">gofee.candidates.</code><code class="sig-name descname">PermutationMutation</code><span class="sig-paren">(</span><em class="sig-param">n_top</em>, <em class="sig-param">Npermute=3</em>, <em class="sig-param">description='PermutationMutation'</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#gofee.candidates.PermutationMutation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to perform permutation mutations on structures.</p>
+<p>Swaps the positions of a number of pairs of unlike atoms.</p>
+<p>Parameters:</p>
+<dl class="simple">
+<dt>n_top: int</dt><dd><p>The number of atoms to optimize. Specifically the
+atoms with indices [-n_top:] are optimized.</p>
+</dd>
+<dt>Npermute: float</dt><dd><p>The average number of permutations to perform.</p>
+</dd>
+<dt>blmin: float</dt><dd><p>The minimum allowed distance between atoms in units of
+the covalent distance between atoms, where d_cov=r_cov_i+r_cov_j.</p>
+</dd>
+<dt>blmax: float</dt><dd><p>The maximum allowed distance, in units of the covalent
+distance, from a single isolated atom to the closest atom. If
+blmax=None, no constraint is enforced on isolated atoms.</p>
+</dd>
+<dt>description: str</dt><dd><p>Name of the operation, which will be saved in
+info-dict of structures, on which the operation is applied.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../tutorial/tio2_reconstruction/tio2_reconstruction.html" class="btn btn-neutral float-left" title="Searching for the TiO2(001)-(1x4) reconstruction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Malthe Kjær Bisbo, Bjørk Hammer
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
