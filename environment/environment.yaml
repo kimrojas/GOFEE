@@ -1,0 +1,15 @@
+name: gofee
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - ase=3.22.1
+  - cymem
+  - cython
+  - mpi4py
+  - numpy=1.22.1
+  - scikit-learn
+  - scipy
+  - dscribe
+  - matplotlib
