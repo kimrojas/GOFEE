@@ -15,7 +15,7 @@ from gofee.gofee_modified import GOFEE
 ```
 INSTEAD OF
 ```
-from gofee import GOFEE
+~~from gofee import GOFEE~~
 ```
 
 
