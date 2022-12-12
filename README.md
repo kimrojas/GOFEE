@@ -23,7 +23,7 @@ Modification details:
 
 1. Decaying kappa
 
-I add an opption to make kappa a gaussian function which dacaying to 1. The kappa value for every iteration is printed in the log file. 
+I add an opption to turn kappa into a gaussian function which dacaying to 1. The kappa value for every iteration is printed in the log file. 
 
 ```
 kappa: float or string
@@ -35,7 +35,7 @@ kappa: float or string
 
 2. Similarity check
 
-During a parralel gofee run, a similarity check is performed to ensure the verry similar structure won't be evaluated using DFT repadtedly. To activate this option, plase name the calculation folder as "run0, run1, run2, etc." and name the trajectory file as "structures.traj".
+During a parralel gofee run, a similarity check is performed to ensure the verry similar structure won't be evaluated using DFT repeatedly. To activate this option, plase name the calculation folder as "run0, run1, run2, etc." and name the trajectory file as "structures.traj".
 
 ```
 similarity_thr: float
