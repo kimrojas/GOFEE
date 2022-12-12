@@ -19,7 +19,7 @@ from gofee import GOFEE
 ```
 
 
-Modification details:
+##Modification details:
 
 1. Decaying kappa
 
