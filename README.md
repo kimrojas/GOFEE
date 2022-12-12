@@ -1,7 +1,9 @@
 # A subtle modification to GOFEE
 
 Find the original code here:
-https://gitlab.au.dk/au480665/gofee/-/blob/master/gofee/gofee.py.
+https://gitlab.au.dk/au480665/gofee/-/blob/master/gofee/gofee.py
+and the documentation here:
+http://grendel-www.cscaa.dk/mkb/.
 
 How to use this modified code:
 ```
