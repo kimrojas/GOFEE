@@ -41,7 +41,7 @@ search1 = GOFEE(calc=calc,
                max_steps=100,
                Ncandidates=10,
                population_size=5,
-               kappa='decay'
+               kappa='decay',
                trajectory='structures.traj',
 	           similarity_thr=0.999)
 
