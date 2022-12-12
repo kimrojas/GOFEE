@@ -302,7 +302,7 @@ class GOFEE():
 
         self.BFGS_step_lengths = []
 
-def get_kappa(self):
+    def get_kappa(self):
         """22/08/12, SAM: Method to get kappa as a function if it is specify in the input."""
         if self.kappa == "decay":
             if self.max_steps < 201:
