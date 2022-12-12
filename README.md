@@ -13,10 +13,7 @@ b. In the input file use
 ```
 from gofee.gofee_modified import GOFEE
 ```
-INSTEAD OF
-```
-~~from gofee import GOFEE~~
-```
+INSTEAD OF ~~from gofee import GOFEE~~.
 
 
 
