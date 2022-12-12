@@ -9,6 +9,7 @@ from gofee.gofee_lalala import GOFEE
 ```
 
 Modification details:
+
 1. Decaying kappa
 
 I add an opption to make kappa a gaussian function which dacaying to 1. The kappa value for every iteration is printed in the log file. 
