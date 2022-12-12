@@ -414,7 +414,7 @@ def get_kappa(self):
                             adp = self.get_dualpoint(anew)
                             adp = self.evaluate(adp)
                             self.save_structures([adp])
-                        a_add.append(adp)                                                
+                        a_add.append(adp)                                                                        
                                             
                     ###### testing ######
                     #self.write_BFGS_stats(anew0, idx_relax)  # for testing only

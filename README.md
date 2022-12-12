@@ -31,7 +31,7 @@ During a parralel gofee run, a similarity check is performed to ensure the verry
 ```
 similarity_thr: float
         Default: 0.999
-        "Threshold to skip DFT evaluation of very similar structure. The structure will be just copied from the already evaluated structure instead."
+        "Threshold to skip DFT evaluation of very similar structure. The structure will be just copied from the already evaluated structure instead. The similarity check is performed by calculating the kerner value of the two structure's feature vectors, K(X1, X2). "
 ```
 
 Please refer to the example for more details. 
