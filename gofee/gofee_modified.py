@@ -1,6 +1,6 @@
 """ Definition of GOFEE class.
 """
-
+import math
 import numpy as np
 from scipy.spatial.distance import cdist, euclidean
 import pickle
