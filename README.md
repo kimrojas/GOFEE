@@ -19,7 +19,7 @@ kappa: float or string
         Default: 2
         "How much to weigh predicted uncertainty in the acquisition
         function. 
-        Set to ```"decay"``` for using the decaying kappa."
+        Set to "decay" for using the decaying kappa."
 ```
 
 2. Similarity check
