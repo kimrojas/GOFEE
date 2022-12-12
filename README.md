@@ -7,7 +7,7 @@ http://grendel-www.cscaa.dk/mkb/.
 
 How to use this modified code:
 
-a. Put the gofee_modified.py file inside the gofee-folder. For instance: /home/msamuel/apps/gofee/gofee.
+a. Put the gofee_modified.py file inside the gofee-folder. For instance: /home/msamuel/gofee2/gofee.
 
 b. In the input file use
 ```
