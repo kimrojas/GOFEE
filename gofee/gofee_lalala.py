@@ -35,6 +35,8 @@ from datetime import timedelta
 from time import time
 from copy import deepcopy
 
+import os
+
 class GOFEE():
     """
     GOFEE global structure search method.
@@ -150,7 +152,8 @@ class GOFEE():
                  restart='restart.pickl',
                  reference_structure=None,
                  verbose=False,
-                 random_seed=None):
+                 random_seed=None,
+                 similarity_thr=0.999):
         
         # Set random seed
         if random_seed is not None:
@@ -230,7 +233,9 @@ class GOFEE():
         self.apply_centering = apply_centering
         self.restart = restart
         self.reference_structure = reference_structure
+        self.similarity_thr = similarity_thr
         
+        self.current_path =  os.getcwd() #SAM: To print trajectory to current path
         # Add position-constraint to candidate-generator
         #self.candidate_generator.set_constraints(position_constraint)
 
@@ -296,6 +301,17 @@ class GOFEE():
                 self.Fmax_filter = 0.1
 
         self.BFGS_step_lengths = []
+
+def get_kappa(self):
+        """22/08/12, SAM: Method to get kappa as a function if it is specify in the input."""
+        if self.kappa == "decay":
+            if self.max_steps < 201:
+                kappa = 1 + 0.02 * self.max_steps * math.exp(- self.steps ** 2 / (0.25 * self.max_steps ** 2))
+            else:
+                kappa = 1 + 4 * math.exp(- self.steps ** 2 / (0.25 * self.max_steps ** 2))
+        else:
+            kappa = self.kappa
+        return kappa
 
     def initialize(self):
         self.get_initial_structures()
@@ -374,29 +390,32 @@ class GOFEE():
             t3 = time()
             relaxed_candidates = self.relax_candidates_with_surrogate(unrelaxed_candidates)
             t4 = time()
-            kappa = self.kappa
+            kappa = self.get_kappa()
+            self.log_msg += (f"kappa = {kappa} \n")
             a_add = []
                 
-            for _ in range(3):
+            for _ in range(5):
                 try:
-                    anew0 = self.select_with_acquisition(relaxed_candidates, kappa)
-                    idx_relax = anew0.info['key_value_pairs'].get('index_closest_min')
-                    if idx_relax is not None:
-                        anew = self.make_relax_step_in_target_potential(idx_relax)
-                    else:
-                        anew = self.evaluate(anew0)
-                    self.save_structures([anew])
-                    a_add.append(anew)
-                    if self.dualpoint:
-                        if idx_relax is not None:
+                    anew = self.select_with_acquisition(relaxed_candidates, kappa)
+                    #idx_relax = anew.info['key_value_pairs'].get('index_closest_min')
+                    #if idx_relax is not None:
+                    #    anew = self.make_relax_step_in_target_potential(idx_relax)
+                    #else:
+                    if self.check_similarity_with_all_runs(anew):
+                        anew = self.evaluate(anew)
+                        self.save_structures([anew])
+                        a_add.append(anew)
+                        
+                        if self.dualpoint:
+                        #if idx_relax is not None:
                             # Continue BFGS on from "anew".
-                            adp = self.make_relax_step_in_target_potential(len(self.gpr.memory.energies)-1)
-                        else:
+                          #  adp = self.make_relax_step_in_target_potential(len(self.gpr.memory.energies)-1)
+                        #else:
                             adp = self.get_dualpoint(anew)
                             adp = self.evaluate(adp)
-                        self.save_structures([adp])
-                        a_add.append(adp)
-                    
+                            self.save_structures([adp])
+                        a_add.append(adp)                                                
+                                            
                     ###### testing ######
                     #self.write_BFGS_stats(anew0, idx_relax)  # for testing only
                     #####################
@@ -404,7 +423,7 @@ class GOFEE():
                 except Exception as err:
                     kappa /=2
                     if self.master:
-                        print(f'Exception :\n{err}', file=sys.stderr)
+                        #print(f'Exception :\n{err}', file=sys.stderr)
                         traceback.print_exc(file=sys.stderr)
             else:
                 raise RuntimeError('Evaluation failed repeatedly - It might help to constrain the atomic positions during search.')
@@ -423,10 +442,13 @@ class GOFEE():
             self.status_sufficiently_optimized_structures(a_add)
 
             # Add structure to population
-            index_lowest = np.argmin([a.get_potential_energy() for a in a_add])
-            self.population.add([a_add[index_lowest]])
+            try:
+                index_lowest = np.argmin([a.get_potential_energy() for a in a_add])
+                self.population.add([a_add[index_lowest]])
+            except:
+                pass
             
-            self.log_msg += (f"Prediction:\nenergy = {anew0.info['key_value_pairs']['Epred']:.5f}eV,  energy_std = {anew0.info['key_value_pairs']['Epred_std']:.5f}eV\n")
+            self.log_msg += (f"Prediction:\nenergy = {anew.info['key_value_pairs']['Epred']:.5f}eV,  energy_std = {anew.info['key_value_pairs']['Epred_std']:.5f}eV\n")
             self.log_msg += (f"E_true:\n{array_to_string([a.get_potential_energy() for a in a_add], unit='eV')}\n\n")
             self.log_msg += (f"Energy of population:\n{array_to_string([a.get_potential_energy() for a in self.population.pop], unit='eV')}\n")
             if self.verbose:
@@ -496,7 +518,7 @@ class GOFEE():
         Njobs = self.Ncandidates
         task_split = split(Njobs, self.comm.size)
         def func2():
-            return [self.surrogate_relaxation(candidates[i], Fmax=0.1, steps=200, kappa=self.kappa)
+            return [self.surrogate_relaxation(candidates[i], Fmax=0.1, steps=200, kappa=self.get_kappa()) #2022/10/29, SAM: to get call kappa
                     for i in task_split[self.comm.rank]]
         relaxed_candidates = parallel_function_eval(self.comm, func2)
         relaxed_candidates = self.certainty_filter(relaxed_candidates)
@@ -606,7 +628,7 @@ class GOFEE():
         # Save prediction in info-dict
         a_relaxed.info['key_value_pairs']['Epred'] = E
         a_relaxed.info['key_value_pairs']['Epred_std'] = Estd
-        a_relaxed.info['key_value_pairs']['kappa'] = self.kappa
+        a_relaxed.info['key_value_pairs']['kappa'] = self.get_kappa()
 
         return a_relaxed
         
@@ -930,3 +952,84 @@ class GOFEE():
         dmin = np.min(d)
         a_closest = self.gpr.memory.structures[index_closest]
         return a_closest, dmin
+
+    def check_similarity_with_all_runs(self,a):
+        #### 2022/11/18: Read all trajectory
+        
+        path = '../'
+        list_directory = os.listdir(path)
+        
+        f1 = self.gpr.descriptor.get_feature(a)
+        K0 = self.gpr.kernel.kernel_value(f1,f1)
+        
+        for i in list_directory:
+            if i.find('run') != -1: # and self.steps > 10:
+                    #try:
+                    os.chdir(path)
+                    os.chdir(i)
+                    
+                    try:
+                        structures = read('structures.traj', index=':')
+                        
+                        os.chdir(self.current_path)
+                        
+                        for j in range(len(structures)):                        
+                            f2 = self.gpr.descriptor.get_feature(structures[j])                        
+                            similarity = self.gpr.kernel.kernel_value(f1,f2) / K0
+                            if similarity > self.similarity_thr:
+                                self.log_msg += f"Similarity= {similarity}\n"
+                                self.log_msg += f"Structure of this step is taken from {i}.\n\n"
+                            
+                                #self.log_msg += "This is the newest version\n"
+                                #write(f'{self.current_path}/structure_found{self.steps}.traj', a)
+                                #write(f'{self.current_path}/structure_similar{self.steps}.traj', structures[j])
+                            
+                                #nearest = []
+                                #nearest.append(structures[j-1])
+                                #nearest.append(structures[j])
+                                #nearest.append(structures[j+1])
+                            
+                                if j % 2 == 0:                      
+                                    #self.save_structures([structures[j]])
+                                    self.gpr.memory.save_data([structures[j]])
+                                    self.population.add([structures[j]])
+                                    self.write(structures[j])
+                                          
+                                    #self.save_structures([structures[j+1]])
+                                    self.gpr.memory.save_data([structures[j+1]])
+                                    self.population.add([structures[j+1]])
+                                    self.write(structures[j+1])                                                            
+                            
+                                else:
+                                    #self.save_structures([structures[j]])
+                                    self.gpr.memory.save_data([structures[j]])
+                                    self.population.add([structures[j]])
+                                    self.write(structures[j])
+                                
+                                    #self.save_structures([structures[j-1]])
+                                    self.gpr.memory.save_data([structures[j-1]])
+                                    self.population.add([structures[j-1]])
+                                    self.write(structures[j-1])
+                            
+                            #self.save_structures([structures[j]])
+                            
+                            #self.save_structures([structures[j+1]])
+                            
+                            #index_lowest = np.argmin([a.get_potential_energy() for a in nearest])
+                            #self.population.add([nearest[index_lowest]])
+                            #self.population.add([structures[j]])
+                            
+                            #self.write(nearest[index_lowest])
+                            
+                                return False
+                    except:
+                        pass         
+            #return True
+        #self.log_msg += f"Similarity= {similarity}\n"
+        return True                            
+                            
+                            
+        
+        
+        
+        
