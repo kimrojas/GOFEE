@@ -6,9 +6,18 @@ and the documentation here:
 http://grendel-www.cscaa.dk/mkb/.
 
 How to use this modified code:
+
+a. Put the gofee_modified.py file inside the gofee-folder. For instance: /home/msamuel/apps/gofee/gofee.
+
+b. In the input file use
 ```
-from gofee.gofee_lalala import GOFEE
+from gofee.gofee_modified import GOFEE
 ```
+INSTEAD OF
+```
+from gofee import GOFEE
+```
+
 
 Modification details:
 

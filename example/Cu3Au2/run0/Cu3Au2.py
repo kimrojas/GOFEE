@@ -4,7 +4,7 @@ from ase import Atoms
 from ase.calculators.emt import EMT
 
 from gofee.candidates import CandidateGenerator, StartGenerator, RattleMutation
-from gofee.gofee_lalala import GOFEE
+from gofee.gofee_modified import GOFEE
 
 ### Define calculator ###
 calc = EMT()
