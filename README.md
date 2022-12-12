@@ -43,4 +43,4 @@ similarity_thr: float
         "Threshold to skip DFT evaluation of very similar structure. The structure will be just copied from the already evaluated structure instead. The similarity check is performed by calculating the kerner value of the two structure's feature vectors, K(X1, X2). "
 ```
 
-Please refer to the example for more details. 
+Please refer to the example for more details and let me know is you have any problem. 
