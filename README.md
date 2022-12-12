@@ -18,9 +18,10 @@ INSTEAD OF
 from gofee import GOFEE
 ```
 
-##################################
+
 
 ##################################
+
 **Modification details:**
 
 1. Decaying kappa
