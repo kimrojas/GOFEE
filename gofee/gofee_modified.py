@@ -973,63 +973,36 @@ class GOFEE():
                         
                         os.chdir(self.current_path)
                         
-                        for j in range(len(structures)):                        
-                            f2 = self.gpr.descriptor.get_feature(structures[j])                        
-                            similarity = self.gpr.kernel.kernel_value(f1,f2) / K0
-                            if similarity > self.similarity_thr:
-                                self.log_msg += f"Similarity= {similarity}\n"
-                                self.log_msg += f"Structure of this step is taken from {i}.\n\n"
+                        number_of_structures = len(structures)
+                        
+                        if number_of_structures >= 50:
+                        
+                            for j in range(number_of_structures-9, number_of_structures):                        
+                                f2 = self.gpr.descriptor.get_feature(structures[j])                        
+                                similarity = self.gpr.kernel.kernel_value(f1,f2) / K0
+                                if similarity > self.similarity_thr:
+                                    self.log_msg += f"Similarity= {similarity}\n"
+                                    self.log_msg += f"Structure of this step is taken from {i}.\n\n"                            
                             
-                                #self.log_msg += "This is the newest version\n"
-                                #write(f'{self.current_path}/structure_found{self.steps}.traj', a)
-                                #write(f'{self.current_path}/structure_similar{self.steps}.traj', structures[j])
-                            
-                                #nearest = []
-                                #nearest.append(structures[j-1])
-                                #nearest.append(structures[j])
-                                #nearest.append(structures[j+1])
-                            
-                                if j % 2 == 0:                      
-                                    #self.save_structures([structures[j]])
-                                    self.gpr.memory.save_data([structures[j]])
-                                    self.population.add([structures[j]])
-                                    self.write(structures[j])
+                                    if j % 2 == 0:                      
+                                        self.gpr.memory.save_data([structures[j]])
+                                        self.population.add([structures[j]])
+                                        self.write(structures[j])
                                           
-                                    #self.save_structures([structures[j+1]])
-                                    self.gpr.memory.save_data([structures[j+1]])
-                                    self.population.add([structures[j+1]])
-                                    self.write(structures[j+1])                                                            
+                                        self.gpr.memory.save_data([structures[j+1]])
+                                        self.population.add([structures[j+1]])
+                                        self.write(structures[j+1])                                                            
                             
-                                else:
-                                    #self.save_structures([structures[j]])
-                                    self.gpr.memory.save_data([structures[j]])
-                                    self.population.add([structures[j]])
-                                    self.write(structures[j])
+                                    else:
+                                        self.gpr.memory.save_data([structures[j]])
+                                        self.population.add([structures[j]])
+                                        self.write(structures[j])
                                 
-                                    #self.save_structures([structures[j-1]])
-                                    self.gpr.memory.save_data([structures[j-1]])
-                                    self.population.add([structures[j-1]])
-                                    self.write(structures[j-1])
+                                        self.gpr.memory.save_data([structures[j-1]])
+                                        self.population.add([structures[j-1]])
+                                        self.write(structures[j-1])                            
                             
-                            #self.save_structures([structures[j]])
-                            
-                            #self.save_structures([structures[j+1]])
-                            
-                            #index_lowest = np.argmin([a.get_potential_energy() for a in nearest])
-                            #self.population.add([nearest[index_lowest]])
-                            #self.population.add([structures[j]])
-                            
-                            #self.write(nearest[index_lowest])
-                            
-                                return False
+                                    return False
                     except:
                         pass         
-            #return True
-        #self.log_msg += f"Similarity= {similarity}\n"
         return True                            
-                            
-                            
-        
-        
-        
-        
