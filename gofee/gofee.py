@@ -153,8 +153,8 @@ class GOFEE():
                  random_seed=None):
         
         # Set random seed
-        if random_seed is not None:
-            np.random.seed(random_seed)
+#        if random_seed is not None:
+#            np.random.seed(random_seed)
         
         self.verbose = verbose
 
@@ -164,7 +164,12 @@ class GOFEE():
         # Define parallel communication
         self.comm = world.Dup()  # Important to avoid mpi-problems from call to ase.parallel in BFGS
         self.master = self.comm.rank == 0
-
+        #######setting a specific seed for each core#######
+        if random_seed is not None: #newline
+            seed = self.comm.Get_rank() + random_seed #newline
+            np.random.seed(seed) #newline
+            print(f'Random seed set to {seed}') #newline
+        
         if structures is None:
             assert startgenerator is not None
             self.structures = None
@@ -425,10 +430,17 @@ class GOFEE():
             # Add structure to population
             index_lowest = np.argmin([a.get_potential_energy() for a in a_add])
             self.population.add([a_add[index_lowest]])
-            
-            self.log_msg += (f"Prediction:\nenergy = {anew0.info['key_value_pairs']['Epred']:.5f}eV,  energy_std = {anew0.info['key_value_pairs']['Epred_std']:.5f}eV\n")
-            self.log_msg += (f"E_true:\n{array_to_string([a.get_potential_energy() for a in a_add], unit='eV')}\n\n")
-            self.log_msg += (f"Energy of population:\n{array_to_string([a.get_potential_energy() for a in self.population.pop], unit='eV')}\n")
+             
+#            self.log_msg += (f"Prediction:\nenergy = {anew0.info['key_value_pairs']['Epred']:.5f}eV,  energy_std = {anew0.info['key_value_pairs']['Epred_std']:.5f}eV\n")
+#            self.log_msg += (f"E_true:\n{array_to_string([a.get_potential_energy() for a in a_add], unit='eV')}\n\n")
+#            self.log_msg += (f"Energy of population:\n{array_to_string([a.get_potential_energy() for a in self.population.pop], unit='eV')}\n")
+            ###################newlines#################
+            self.log_msg += (f"Prediction:\nenergy = {anew0.info['key_value_pairs']['Epred']}eV,  energy_std = {anew0.info['key_value_pairs']['Epred_std']}eV\n")
+            self.log_msg += (f"E_true:\n{array_to_string([a.get_potential_energy() for a in a_add], unit='eV', format='')}\n\n")
+            self.log_msg += (f"Energy of population:\n{array_to_string([a.get_potential_energy() for a in self.population.pop], unit='eV', format='')}\n")
+            ###################newlines end#############
+
+
             if self.verbose:
                 self.log_msg += (f"Max force of ML-relaxed population:\n{array_to_string([(a.get_forces()**2).sum(axis=1).max()**0.5 for a in self.population.get_refined_pop()], unit='eV/A')}\n")
             
