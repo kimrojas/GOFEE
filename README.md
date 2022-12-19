@@ -1,4 +1,4 @@
-# A subtle modification to GOFEE
+# A subtle improvement to GOFEE
 
 Find the original code here:
 https://gitlab.au.dk/au480665/gofee/-/blob/GOFEE2/gofee/gofee.py
