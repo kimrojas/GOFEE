@@ -9,13 +9,15 @@ from gofee.utils import array_to_string
 
 
 class kappa_changing_GOFEE(GOFEE):
-    def __init__(self, intervall=[5, 1], functype='linear', kappastep=4, *args, **kwargs):
+    def __init__(self, intervall=[5, 1], functype='error', alpha=2, beta=0, kappastep=4, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.intervall = intervall
         self.intervall_len = intervall[0] - intervall[1]
         self.functype = functype
         self.kappa = intervall[0]
         self.kappastep = kappastep
+        self.alpha = alpha
+        self.beta = beta
 
 
 
@@ -26,6 +28,10 @@ class kappa_changing_GOFEE(GOFEE):
             self.linear_kappa_changer()
         elif self.functype=='error':
             self.errorfunc_kappa_changer()
+        elif self.functype=='alpha_error':
+            self.alpha_errorfunc_kappa_changer()
+        elif self.functype=='beta_error':
+            self.beta_errorfunc_kappa_changer()
         elif self.functype=='step':
             self.step_kappa_changer()
 
@@ -37,7 +43,18 @@ class kappa_changing_GOFEE(GOFEE):
 
     def errorfunc_kappa_changer(self):
         x = 4 * self.steps / (self.max_steps-1) - 2
-        self.kappa = - self.intervall_len / 2 * erf(x) + (self.intervall[0] + self.intervall[1]) / 2
+        self.kappa = - self.intervall_len / 2 * erf(x) / erf(2) + (self.intervall[0] + self.intervall[1]) / 2
+
+    def alpha_errorfunc_kappa_changer(self):
+        x = 2 * self.alpha * self.steps / (self.max_steps-1) - self.alpha
+        self.kappa = self.intervall_len / 2 * erf(x) / erf(-self.alpha) + (self.intervall[0] + self.intervall[1]) / 2
+
+    def beta_errorfunc_kappa_changer(self):
+        a = -erf(-4*self.beta/self.max_steps)
+        b = -erf(4*(1-self.beta/self.max_steps))
+        self.kappa = -self.intervall_len / (a - b) * erf(4 * (self.steps - self.beta) / self.max_steps) - self.intervall_len / (a - b) * erf(4 * (self.beta) / self.intervall_len) + self.intervall[0]
+
+
 
     def step_kappa_changer(self):
         for i in range(self.max_steps):
