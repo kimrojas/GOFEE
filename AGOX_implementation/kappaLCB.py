@@ -6,6 +6,12 @@ from agox.observer import Observer
 
 
 class ChangingKappaLowerConfidenceBoundAcquisitor(LowerConfidenceBoundAcquisitor):
+    '''
+    Sample implementation of the kappa changing concept in the AGOX framework. Here, only the Acquisitor object has to be altered.
+    It works mostly the same as in GOFEE. Variable names change though e.g. self.steps -> self.get_iteration_counter() and the total number of iterations has to be given directly to this class as well as to the runner.
+
+    The prioritize_candidates function from the AcquisitorBaseClass is overwritten to choose the given kappa within every iteration.
+    '''
     name = "ChangingKappaLowerConfidenceBoundAcquisitor"
 
     def __init__(self, N_iterations=25, intervall=[5,1], functype='linear', step=4, *args, **kwargs):

@@ -9,7 +9,32 @@ from gofee.utils import array_to_string
 
 
 class kappa_changing_GOFEE(GOFEE):
-    def __init__(self, intervall=[5, 1], functype='error', alpha=2, beta=0, kappastep=4, *args, **kwargs):
+    '''
+    GOFEE implementation for different kappa-changing functions.
+    The given function override the internal class variable self.kappa within every iteration.
+
+    Parameters:
+        functype: str (default='error')
+            Chooses the type of function for the kappa parameter to change on. The option are:
+                'error': standart implementation of an error function
+                'linear': linear decay
+                'step': decay on a step function. Requires the kappastep parameter
+                'alpha_error': decay on the error function with an additional parameter alpha that changes the steepness of the function
+                'beta_error': decay on the error function with an additional parameter beta that shifts the function on the x-axis
+
+        intervall: array-like (default=[5, 1])
+            List or other iterable, where the first entry is the starting value for kappa and the second entry the ending value
+
+        kappastep: int (default=4)
+            Only used with the step function. Integer gives the number of steps for the decay
+
+        alpha: int (default=2)
+            Only used with the alpha_error implementation. Parameter controls the steepness of the function. alpha=0.5 is almost linear while alpha=50 is almost a two-step step function
+
+        beta: int (default=0)!!!
+            Only used with the beta_error implementation. Parameter ranges from zero to the number of iterations. ATTENTION: The default parameter is actually not a good parameter. A beta as big as the half of the number of iterations would equal the standard implementation of the error function. Recommended is something a little bit bigger than that
+    '''
+    def __init__(self, functype='error', intervall=[5, 1], alpha=2, beta=0, kappastep=4, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.intervall = intervall
         self.intervall_len = intervall[0] - intervall[1]
@@ -24,6 +49,7 @@ class kappa_changing_GOFEE(GOFEE):
 
 
     def change_kappa(self):
+        '''Function that is called in the run function to change the kappa parameter according to the given function'''
         if self.functype=='linear':
             self.linear_kappa_changer()
         elif self.functype=='error':
@@ -39,24 +65,27 @@ class kappa_changing_GOFEE(GOFEE):
 
 
     def linear_kappa_changer(self):
+        '''Function for the linear decay of kappa'''
         self.kappa = self.intervall[0] - self.steps * (self.intervall_len) / (self.max_steps-1)
 
     def errorfunc_kappa_changer(self):
+        '''Function for the standard implementation of the error function'''
         x = 4 * self.steps / (self.max_steps-1) - 2
         self.kappa = - self.intervall_len / 2 * erf(x) / erf(2) + (self.intervall[0] + self.intervall[1]) / 2
 
     def alpha_errorfunc_kappa_changer(self):
+        '''Function for the steepness controlling implementation of the error function'''
         x = 2 * self.alpha * self.steps / (self.max_steps-1) - self.alpha
         self.kappa = self.intervall_len / 2 * erf(x) / erf(-self.alpha) + (self.intervall[0] + self.intervall[1]) / 2
 
     def beta_errorfunc_kappa_changer(self):
+        '''Function for the implementation of the error function that shift along the x-axis'''
         a = -erf(-4*self.beta/self.max_steps)
         b = -erf(4*(1-self.beta/self.max_steps))
         self.kappa = -self.intervall_len / (a - b) * erf(4 * (self.steps - self.beta) / self.max_steps) - self.intervall_len / (a - b) * erf(4 * (self.beta) / self.intervall_len) + self.intervall[0]
 
-
-
     def step_kappa_changer(self):
+        '''Function for the decay on a step function'''
         for i in range(self.max_steps):
             if self.steps < ((i+1) * self.max_steps / self.kappastep):
                 self.kappa = self.intervall[0] - self.intervall_len * i / (self.kappastep-1)
@@ -66,7 +95,7 @@ class kappa_changing_GOFEE(GOFEE):
 
 
     def run(self, max_steps=None, restart=None):
-        """ Method to run the search.
+        """ Method to run the search. The existing minor changes have been marked by comments after the lines.
         """
         if restart is not None:
             self.read(restart)
@@ -87,11 +116,11 @@ class kappa_changing_GOFEE(GOFEE):
             t2 = time()
             unrelaxed_candidates = self.generate_new_candidates()
             t3 = time()
-            self.change_kappa() # new line
+            self.change_kappa() # new line for the key change in the implementation
             relaxed_candidates = self.relax_candidates_with_surrogate(unrelaxed_candidates)
             t4 = time()
             kappa = self.kappa
-            self.log_msg += (f"kappa = {kappa} \n")
+            self.log_msg += (f"kappa = {kappa} \n") #new line for logging the kappa value in the log file
             a_add = []
                 
             for _ in range(3):
