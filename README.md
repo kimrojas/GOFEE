@@ -27,10 +27,18 @@ I add an opption to turn kappa into a gaussian function which dacaying to 1. The
 
 ```
 kappa: float or string
-        Default: 2
+        Default: "decay"
         "How much to weigh predicted uncertainty in the acquisition
         function. 
         Set to "decay" for using the decaying kappa."
+        
+if kappa = "decay", there are two parameters to control the decaying function to decay from certain high value (kappa_max) to certain low value (kappa_max)
+
+kappa_max: float
+        Default: 5
+        
+kappa_min:
+        Default: 1
 ```
 
 *2. Similarity check*

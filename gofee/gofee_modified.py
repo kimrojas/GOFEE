@@ -132,8 +132,10 @@ class GOFEE():
                  gpr=None,
                  startgenerator=None,
                  candidate_generator=None,
-                 kappa=2,
-                 max_steps=200,
+                 kappa="decay",
+                 kappa_max=5,
+                 kappa_min=1,
+                 max_steps=500,
                  Ninit=10,
                  max_relax_dist=4,
                  Ncandidates=30,
@@ -145,6 +147,7 @@ class GOFEE():
                  filter_optimized_structures=False,
                  relax_scheme={},
                  population_scheme={},
+                 population_method="similarity",
                  N_use_pop=1,
                  apply_centering=False,
                  trajectory='structures.traj',
@@ -218,6 +221,9 @@ class GOFEE():
             self.candidate_generator = CandidateGenerator([1.0],[rattle])
 
         self.kappa = kappa
+        self.kappa_max = kappa_max
+        self.kappa_min = kappa_min
+        
         self.max_steps = max_steps
         self.Ninit = Ninit
         self.max_relax_dist = max_relax_dist
@@ -264,7 +270,7 @@ class GOFEE():
             gpr_kwargs = {}
 
         # Initialize or restart search
-        self.population_method = self.population_scheme.get('method', 'clustering')
+        self.population_method = population_method
         if restart is None or not path.exists(restart):
             self.initialize()
 
@@ -306,9 +312,9 @@ class GOFEE():
         """22/08/12, SAM: Method to get kappa as a function if it is specify in the input."""
         if self.kappa == "decay":
             if self.max_steps < 201:
-                kappa = 1 + 0.02 * self.max_steps * math.exp(- self.steps ** 2 / (0.25 * self.max_steps ** 2))
+                kappa = self.kappa_min + 0.02 * self.max_steps * math.exp(- self.steps ** 2 / (0.25 * self.max_steps ** 2))
             else:
-                kappa = 1 + 4 * math.exp(- self.steps ** 2 / (0.25 * self.max_steps ** 2))
+                kappa = self.kappa_min + (self.kappa_max - self.kappa_min) * math.exp(- self.steps ** 2 / (0.25 * self.max_steps ** 2))
         else:
             kappa = self.kappa
         return kappa
